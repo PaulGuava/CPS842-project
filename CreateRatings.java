@@ -32,20 +32,32 @@ public class CreateRatings {
 
 		for(int i = 0;i<100;i++)
 		{
+			HashMap<Integer,Integer>  perMovie = new HashMap<Integer,Integer>();
 			fw.write(movie[i]+"\n");
 			for(int e=0;e<30;e++)
 			{
 			int rating= 0;
 			int r = rand.nextInt(10000000);
 			int m = r % 10;
-			if (m > 6)
+			
+			if (m < 4)
 			{
-				rating = rand.nextInt(5-1+1)+1;
+				rating = rand.nextInt((5-4)+1)+4;
 
 			}
-			fw.write("User: "+e+"\t\tRating: "+rating+"\n");
+			else if(m<6)
+			{
+				rating = rand.nextInt((3-2)+1)+2;
+			}
+			else if(m<7)
+			{
+				rating = 1;
 			}
 			
+			perMovie.put(e, rating);
+			fw.write("User: "+e+"\t\tRating: "+rating+"\n");
+			}
+			ratings.put(movie[i], perMovie);
 			fw.write("\n");
 		}
 		fw.close();

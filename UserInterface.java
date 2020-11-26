@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 public class UserInterface {
 
 	private JFrame frame;
+	private String currentMovie="";
 
 	/**
 	 * Launch the application.
@@ -59,6 +60,7 @@ public class UserInterface {
 	 */
 	private void initialize() throws FileNotFoundException {
 		String[] movie = new String[100];
+
 		int[] userRange = {1,2,3,4,5};
 		Scanner scanner = new Scanner(new File("MovieList.txt"));
 		for(int i = 0;i<100;i++)
@@ -72,18 +74,19 @@ public class UserInterface {
 		getFrame().getContentPane().setLayout(null);
 		
 		
+
+
 		
-		JButton btnNewButton = new JButton("RATE");
-		btnNewButton.setBounds(205, 161, 76, 29);
-		getFrame().getContentPane().add(btnNewButton);
-		
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
-		spinner.setBounds(227, 122, 34, 26);
-		getFrame().getContentPane().add(spinner);
+
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(305, 38, 196, 226);
 		getFrame().getContentPane().add(textArea);
+		
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
+		spinner.setBounds(227, 122, 34, 26);
+		getFrame().getContentPane().add(spinner);
+
 		
 		JButton btnNewButton_1 = new JButton("RECOMMEND");
 		btnNewButton_1.setBounds(344, 276, 127, 29);
@@ -120,7 +123,7 @@ public class UserInterface {
 					public void valueChanged(ListSelectionEvent event) {
 						if(event.getValueIsAdjusting())
 						{
-							textArea_1.append(movie[list.getSelectedIndex()]+"\n");
+							currentMovie = movie[list.getSelectedIndex()];
 						}
 
 
@@ -132,6 +135,16 @@ public class UserInterface {
 		scrollPane.setBounds(19, 38, 180, 226);
 		getFrame().getContentPane().add(scrollPane);
 
+		JButton btnNewButton = new JButton("RATE");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int value = (int) spinner.getValue();
+				textArea_1.append(currentMovie +" "+value+"\n");
+			}
+		});
+		btnNewButton.setBounds(205, 161, 76, 29);
+		getFrame().getContentPane().add(btnNewButton);
 		
 
 	}
