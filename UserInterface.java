@@ -11,6 +11,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
@@ -27,6 +30,8 @@ public class UserInterface {
 
 	private JFrame frame;
 	private String currentMovie="";
+	private HashMap<String,Integer> newUserRating = new HashMap<String, Integer>();
+	private ArrayList<String> recommendedMovies = new ArrayList<String>();
 
 	/**
 	 * Launch the application.
@@ -88,9 +93,7 @@ public class UserInterface {
 		getFrame().getContentPane().add(spinner);
 
 		
-		JButton btnNewButton_1 = new JButton("RECOMMEND");
-		btnNewButton_1.setBounds(344, 276, 127, 29);
-		getFrame().getContentPane().add(btnNewButton_1);
+
 		
 		JLabel lblNewLabel = new JLabel("Movie List");
 		lblNewLabel.setBounds(73, 10, 82, 16);
@@ -139,12 +142,39 @@ public class UserInterface {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				int value = (int) spinner.getValue();
-				textArea_1.append(currentMovie +" "+value+"\n");
+
+				if(!currentMovie.equals(" "))
+				{			
+					int value = (int) spinner.getValue();
+					newUserRating.put(currentMovie, value);
+					
+					textArea_1.setText("");
+					
+					for(Map.Entry cM : newUserRating.entrySet())
+					{
+					textArea_1.append(cM.getKey() +" "+cM.getValue()+"\n");
+					}
+				}
+
 			}
 		});
 		btnNewButton.setBounds(205, 161, 76, 29);
 		getFrame().getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("RECOMMEND");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!newUserRating.isEmpty())
+				{
+					MovieRecommender mr = new MovieRecommender();
+					recommendedMovies = mr.reccomend(newUserRating);
+					
+				}
+			}
+		});
+		btnNewButton_1.setBounds(344, 276, 127, 29);
+		getFrame().getContentPane().add(btnNewButton_1);
+		
 		
 
 	}
