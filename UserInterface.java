@@ -4,13 +4,22 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 
@@ -38,29 +47,37 @@ public class UserInterface {
 
 	/**
 	 * Create the application.
+	 * @throws FileNotFoundException 
 	 */
-	public UserInterface() {
+	public UserInterface() throws FileNotFoundException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws FileNotFoundException 
 	 */
-	private void initialize() {
+	private void initialize() throws FileNotFoundException {
+		String[] movie = new String[100];
+		int[] userRange = {1,2,3,4,5};
+		Scanner scanner = new Scanner(new File("MovieList.txt"));
+		for(int i = 0;i<100;i++)
+		{   
+			if(scanner.hasNextLine())
+				movie[i] = scanner.nextLine();
+		}
 		setFrame(new JFrame());
 		getFrame().setBounds(100, 100, 528, 465);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().getContentPane().setLayout(null);
 		
-		JList list = new JList();
-		list.setBounds(19, 38, 174, 226);
-		getFrame().getContentPane().add(list);
+		
 		
 		JButton btnNewButton = new JButton("RATE");
 		btnNewButton.setBounds(205, 161, 76, 29);
 		getFrame().getContentPane().add(btnNewButton);
 		
-		JSpinner spinner = new JSpinner();
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
 		spinner.setBounds(227, 122, 34, 26);
 		getFrame().getContentPane().add(spinner);
 		
@@ -80,17 +97,41 @@ public class UserInterface {
 		lblNewLabel_1.setBounds(335, 10, 166, 16);
 		getFrame().getContentPane().add(lblNewLabel_1);
 		
+
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setBounds(19, 303, 240, 114);
 		getFrame().getContentPane().add(textArea_1);
 		
+		JScrollPane scrollPane_1 = new JScrollPane(textArea_1);
+		scrollPane_1.setBounds(19, 303, 240, 114);
+		getFrame().getContentPane().add(scrollPane_1);
+		
 		JLabel lblNewLabel_2 = new JLabel("Rated Movies");
 		lblNewLabel_2.setBounds(91, 281, 107, 16);
 		getFrame().getContentPane().add(lblNewLabel_2);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
+		JList list = new JList(movie);
+		getFrame().getContentPane().add(list);
+		list.setBounds(0, 0, 176, 222);
+
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.addListSelectionListener(
+				new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent event) {
+						if(event.getValueIsAdjusting())
+						{
+							textArea_1.append(movie[list.getSelectedIndex()]+"\n");
+						}
+
+
+					}
+
+				}
+				);
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(19, 38, 180, 226);
+		getFrame().getContentPane().add(scrollPane);
+
 		
 
 	}
