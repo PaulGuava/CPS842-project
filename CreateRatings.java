@@ -65,7 +65,7 @@ public class CreateRatings {
 					fw.write("User: "+(e+1)+"\t\tRating: "+rating+"\n");
 				}else {
 
-					fw.write("User: "+(e+1)+"\t\tRating: "+-1+"\n");
+					fw.write("User: "+(e+1)+"\t\tRating: "+ 6 +"\n");
 				}
 			}
 			ratings.put(movie[i], perMovie);
