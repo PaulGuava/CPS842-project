@@ -43,7 +43,7 @@ public class CreateRatings {
 	
 				Boolean[] watched = userMovies.get(e);
 				if(watched[i] == true) {
-					int rating= 0;
+					int rating= 1;
 					int r = rand.nextInt(10000000);
 					int m = r % 10;
 					
@@ -62,10 +62,10 @@ public class CreateRatings {
 					}
 					
 					perMovie.put(e, rating);
-					fw.write("User: "+(e+1)+"\t\tRating: "+rating+"\n");
+					fw.write("User: "+(e)+"\t\tRating: "+rating+"\n");
 				}else {
 
-					fw.write("User: "+(e+1)+"\t\tRating: "+ 6 +"\n");
+					fw.write("User: "+(e)+"\t\tRating: "+ 6 +"\n");
 				}
 			}
 			ratings.put(movie[i], perMovie);

@@ -31,7 +31,9 @@ public class UserInterface {
 	private JFrame frame;
 	private String currentMovie="";
 	private HashMap<String,Integer> newUserRating = new HashMap<String, Integer>();
-	private ArrayList<String> recommendedMovies = new ArrayList<String>();
+	//private HashMap<String,Double> recommendedMovies = new HashMap<String,Double>();
+	//private ArrayList<String>recommendedMovies = new ArrayList<String>();
+	private String[] recommendedMovies;
 
 	/**
 	 * Launch the application.
@@ -84,16 +86,16 @@ public class UserInterface {
 		
 
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(305, 38, 196, 226);
-		getFrame().getContentPane().add(textArea);
+
 		
 		JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
 		spinner.setBounds(227, 122, 34, 26);
 		getFrame().getContentPane().add(spinner);
 
 		
-
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(305, 38, 196, 226);
+		getFrame().getContentPane().add(textArea);
 		
 		JLabel lblNewLabel = new JLabel("Movie List");
 		lblNewLabel.setBounds(73, 10, 82, 16);
@@ -160,6 +162,7 @@ public class UserInterface {
 		});
 		btnNewButton.setBounds(205, 161, 76, 29);
 		getFrame().getContentPane().add(btnNewButton);
+
 		
 		JButton btnNewButton_1 = new JButton("RECOMMEND");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -167,13 +170,45 @@ public class UserInterface {
 				if(!newUserRating.isEmpty())
 				{
 					MovieRecommender mr = new MovieRecommender();
-					recommendedMovies = mr.reccomend(newUserRating);
+					try {
+						recommendedMovies = mr.reccomend(newUserRating);
+
+						textArea.setText("");						
+						if(recommendedMovies.length==0)
+						{
+							textArea.append("\n more Information Needed");
+						}
+						else {
+	
+						for(int i =0;i<recommendedMovies.length;i++)
+						{
+							textArea.append(recommendedMovies[i]+"\n");
+						}
+						//getFrame().getContentPane().add(textArea);
+						}
+
+
+
+				
+						
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 				}
 			}
 		});
 		btnNewButton_1.setBounds(344, 276, 127, 29);
 		getFrame().getContentPane().add(btnNewButton_1);
+		
+
+		
+		JScrollPane scrollPane2 = new JScrollPane(textArea);
+		scrollPane2.setBounds(305, 38, 196, 226);
+		getFrame().getContentPane().add(scrollPane2);
+		
+
 		
 		
 
