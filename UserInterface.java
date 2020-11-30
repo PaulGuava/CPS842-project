@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +36,7 @@ public class UserInterface {
 	//private HashMap<String,Double> recommendedMovies = new HashMap<String,Double>();
 	//private ArrayList<String>recommendedMovies = new ArrayList<String>();
 	private String[] recommendedMovies;
+	private	MovieRecommender mr = new MovieRecommender();
 
 	/**
 	 * Launch the application.
@@ -169,7 +172,7 @@ public class UserInterface {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!newUserRating.isEmpty())
 				{
-					MovieRecommender mr = new MovieRecommender();
+					//mr = new MovieRecommender();
 					try {
 						recommendedMovies = mr.reccomend(newUserRating);
 
@@ -207,6 +210,41 @@ public class UserInterface {
 		JScrollPane scrollPane2 = new JScrollPane(textArea);
 		scrollPane2.setBounds(305, 38, 196, 226);
 		getFrame().getContentPane().add(scrollPane2);
+		
+		JButton btnNewButton_2 = new JButton("CLEAR");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textArea_1.setText("");
+				textArea.setText("");
+				 newUserRating = new HashMap<String, Integer>();
+				 mr = new MovieRecommender();
+				 recommendedMovies=null;
+			}
+		});
+		btnNewButton_2.setBounds(354, 388, 117, 29);
+		frame.getContentPane().add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("SAVE MOVIES");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					FileWriter fw = new FileWriter("RecommendedMovies.txt");
+					fw.write("RECOMMENDED MOVIES LIST\n************************\n\n");
+					for(int i =0;i<recommendedMovies.length;i++)
+					{
+						fw.write(recommendedMovies[i]+"\n");
+					}
+					fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_3.setBounds(354, 328, 117, 29);
+		frame.getContentPane().add(btnNewButton_3);
+		
+		
 		
 
 		

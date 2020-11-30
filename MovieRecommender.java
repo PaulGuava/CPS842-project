@@ -16,6 +16,18 @@ public class MovieRecommender {
 	private static 		String[] movie = new String[100];
 	private static HashMap<String,Double> recommendedMovies= new HashMap<String,Double>();
 	private static HashMap<String,Double> recMov= new HashMap<String,Double>();
+	
+	
+	MovieRecommender()
+	{
+ratings = new HashMap<Integer,HashMap<String,Integer>>();
+ allRatings = new HashMap<Integer,HashMap<String,Integer>>();
+ userSim = new HashMap<Integer,Double>();
+recommendedMovies= new HashMap<String,Double>();
+recMov= new HashMap<String,Double>();
+	}
+	
+
 	public static void main(String[]args) throws FileNotFoundException
 	{
 
